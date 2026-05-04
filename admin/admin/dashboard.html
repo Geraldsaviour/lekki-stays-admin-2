@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LuxStay Admin - Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i data-lucide="building-2"></i>
+                <h2>LuxStay</h2>
+            </div>
+            <p class="sidebar-subtitle">Admin Dashboard</p>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#overview" class="nav-item active" data-section="overview">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Overview</span>
+            </a>
+            <a href="#bookings" class="nav-item" data-section="bookings">
+                <i data-lucide="calendar"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="#apartments" class="nav-item" data-section="apartments">
+                <i data-lucide="home"></i>
+                <span>Apartments</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i data-lucide="user"></i>
+                </div>
+                <div class="user-details">
+                    <p class="user-email" id="userEmail">Loading...</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logoutBtn">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1 id="pageTitle">Overview</h1>
+            <div class="header-actions">
+                <button class="btn-refresh" id="refreshBtn">
+                    <i data-lucide="refresh-cw"></i>
+                    <span>Refresh</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Overview Section -->
+        <section id="overview-section" class="content-section active">
+            <div class="stats-grid">
+                <div class="stat-card stat-total">
+                    <div class="stat-icon">
+                        <i data-lucide="calendar"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Bookings</p>
+                        <h3 class="stat-value" id="totalBookings">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-pending">
+                    <div class="stat-icon">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Pending</p>
+                        <h3 class="stat-value" id="pendingBookings">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-confirmed">
+                    <div class="stat-icon">
+                        <i data-lucide="check-circle"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Confirmed</p>
+                        <h3 class="stat-value" id="confirmedBookings">0</h3>
+                    </div>
+                </div>
+
+                <div class="stat-card stat-paid">
+                    <div class="stat-icon">
+                        <i data-lucide="dollar-sign"></i>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Paid</p>
+                        <h3 class="stat-value" id="paidBookings">0</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-section">
+                <div class="section-header">
+                    <h2>Recent Bookings</h2>
+                    <a href="#bookings" class="view-all-link" data-section="bookings">View All →</a>
+                </div>
+                <div id="recentBookingsList" class="bookings-list">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading bookings...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookings Section -->
+        <section id="bookings-section" class="content-section">
+            <div class="section-toolbar">
+                <div class="filters">
+                    <select id="statusFilter" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="payment_pending">Payment Pending</option>
+                        <option value="paid">Paid</option>
+                        <option value="completed">Completed</option>
+                        <option value="declined">Declined</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                    <input 
+                        type="search" 
+                        id="searchInput" 
+                        class="search-input" 
+                        placeholder="Search by name, email, or booking ref..."
+                    >
+                </div>
+            </div>
+
+            <div id="allBookingsList" class="bookings-list">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading bookings...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Apartments Section -->
+        <section id="apartments-section" class="content-section">
+            <div id="apartmentsList" class="apartments-grid">
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Loading apartments...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Booking Detail Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Booking Details</h2>
+                <button class="modal-close" id="closeModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Reason Input Modal -->
+    <div id="reasonModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-reason">
+            <div class="modal-header">
+                <h2 id="reasonModalTitle">Provide Reason</h2>
+                <button class="modal-close" id="closeReasonModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="reasonModalDescription" class="reason-description"></p>
+                <textarea 
+                    id="reasonInput" 
+                    class="reason-textarea" 
+                    placeholder="Enter reason (optional)..."
+                    rows="4"
+                ></textarea>
+                <div class="reason-actions">
+                    <button class="btn-secondary" id="cancelReasonBtn">Cancel</button>
+                    <button class="btn-primary" id="submitReasonBtn">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-confirm">
+            <div class="modal-header">
+                <h2 id="confirmModalTitle">Confirm Action</h2>
+                <button class="modal-close" id="closeConfirmModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="confirm-icon">
+                    <i data-lucide="alert-circle" id="confirmIcon"></i>
+                </div>
+                <p id="confirmModalMessage" class="confirm-message"></p>
+                <div class="confirm-actions">
+                    <button class="btn-secondary" id="cancelConfirmBtn">Cancel</button>
+                    <button class="btn-primary" id="submitConfirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alertModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-alert">
+            <div class="modal-header">
+                <h2 id="alertModalTitle">Notification</h2>
+                <button class="modal-close" id="closeAlertModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-icon">
+                    <i data-lucide="check-circle" id="alertIcon"></i>
+                </div>
+                <p id="alertModalMessage" class="alert-message"></p>
+                <div class="alert-actions">
+                    <button class="btn-primary" id="closeAlertBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Receipt Upload Modal -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-receipt">
+            <div class="modal-header">
+                <h2>Verify Payment Receipt</h2>
+                <button class="modal-close" id="closeReceiptModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="receipt-info">
+                    <p><strong>Booking:</strong> <span id="receiptBookingRef"></span></p>
+                    <p><strong>Guest:</strong> <span id="receiptGuestName"></span></p>
+                    <p><strong>Expected Amount:</strong> <span id="receiptExpectedAmount"></span></p>
+                </div>
+
+                <div class="form-group">
+                    <label for="receiptUpload" class="form-label">
+                        <i data-lucide="upload"></i>
+                        Upload Payment Receipt *
+                    </label>
+                    <input 
+                        type="file" 
+                        id="receiptUpload" 
+                        accept="image/*,.pdf"
+                        class="file-input"
+                        required
+                    />
+                    <div class="file-preview" id="receiptPreview" style="display: none;">
+                        <img id="receiptImage" src="" alt="Receipt preview" />
+                    </div>
+                    <p class="form-help">Accepted formats: JPG, PNG, PDF (Max 5MB)</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="receiptAmount" class="form-label">
+                        Amount Paid *
+                    </label>
+                    <input 
+                        type="number" 
+                        id="receiptAmount" 
+                        class="form-input"
+                        placeholder="Enter amount from receipt"
+                        required
+                    />
+                </div>
+
+                <div class="receipt-verification">
+                    <div class="verification-checklist">
+                        <h4>Verification Checklist:</h4>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="checkAmount" />
+                            <span>Amount matches expected payment</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="checkReceipt" />
+                            <span>Receipt is clear and readable</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="receipt-actions">
+                    <button class="btn-secondary" id="cancelReceiptBtn">Cancel</button>
+                    <button class="btn-primary" id="submitReceiptBtn" disabled>
+                        <i data-lucide="check"></i>
+                        Verify & Mark as Paid
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

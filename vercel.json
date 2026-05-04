@@ -1,0 +1,47 @@
+{
+  "version": 2,
+  "name": "lekki-stays-admin",
+  "builds": [
+    {
+      "src": "server/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "admin/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/server.js"
+    },
+    {
+      "src": "/css/(.*)",
+      "dest": "/admin/css/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/admin/js/$1"
+    },
+    {
+      "src": "/dashboard.html",
+      "dest": "/admin/dashboard.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/admin/dashboard.html"
+    },
+    {
+      "src": "/",
+      "dest": "/admin/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/admin/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

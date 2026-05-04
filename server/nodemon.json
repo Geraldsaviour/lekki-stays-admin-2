@@ -1,0 +1,30 @@
+{
+  "watch": [
+    "server.js",
+    "routes/",
+    "routes-supabase/",
+    "models/",
+    "models-supabase/",
+    "middleware/",
+    "utils/",
+    "utils-supabase/",
+    "config/",
+    ".env"
+  ],
+  "ignore": [
+    "node_modules/",
+    "test*.js",
+    "*.test.js",
+    "*.spec.js",
+    "logs/",
+    "data/*.db",
+    "data/*.db-shm",
+    "data/*.db-wal"
+  ],
+  "ext": "js,json,env",
+  "delay": 1000,
+  "verbose": false,
+  "env": {
+    "NODE_ENV": "development"
+  }
+}
