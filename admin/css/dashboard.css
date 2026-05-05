@@ -985,52 +985,74 @@
     }
     
     .sidebar-header {
-        padding: 1.5rem;
+        padding: 1rem 1rem;
         position: relative;
     }
     
     .sidebar-logo {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .sidebar-logo i {
+        width: 24px;
+        height: 24px;
     }
     
     .sidebar-header h2 {
-        font-size: 1.25rem;
+        font-size: 1.125rem;
     }
     
     .sidebar-subtitle {
-        font-size: 0.8125rem;
+        font-size: 0.75rem;
     }
     
     .sidebar-nav {
-        padding: 1rem;
+        padding: 0.75rem 0.75rem;
+        gap: 0.25rem;
     }
     
     .nav-item {
-        padding: 1rem;
-        font-size: 0.9375rem;
+        padding: 0.75rem 0.875rem;
+        font-size: 0.875rem;
+    }
+    
+    .nav-item i {
+        width: 18px;
+        height: 18px;
     }
     
     .sidebar-footer {
-        padding: 1rem;
+        padding: 0.75rem 0.75rem;
         margin-bottom: 1rem;
     }
     
     .user-info {
-        padding: 0.875rem;
+        padding: 0.625rem;
+        margin-bottom: 0.75rem;
     }
     
     .user-avatar {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+    }
+    
+    .user-avatar i {
+        width: 18px;
+        height: 18px;
     }
     
     .user-email {
-        font-size: 0.875rem;
+        font-size: 0.8125rem;
     }
     
     .btn-logout {
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
+        padding: 0.625rem 0.875rem;
+        font-size: 0.8125rem;
+    }
+    
+    .btn-logout i {
+        width: 16px;
+        height: 16px;
     }
     
     /* Adjust main content for mobile */
