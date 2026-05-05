@@ -971,6 +971,7 @@
         transition: left 0.3s ease;
         border-right: 1px solid var(--border);
         overflow-y: auto;
+        padding-bottom: 1rem;
     }
     
     /* Show sidebar when active */
@@ -1011,6 +1012,7 @@
     
     .sidebar-footer {
         padding: 1rem;
+        margin-bottom: 1rem;
     }
     
     .user-info {
