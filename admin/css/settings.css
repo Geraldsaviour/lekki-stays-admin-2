@@ -76,6 +76,36 @@
     font-weight: 500;
 }
 
+/* Reset Info Box */
+.reset-info {
+    margin-bottom: 1.5rem;
+}
+
+.info-box {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    align-items: flex-start;
+}
+
+.info-box i {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 0.9375rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
 /* Settings Form */
 .settings-form {
     max-width: 500px;
