@@ -130,8 +130,14 @@ function initializeNavigation() {
 
     navItems.forEach(item => {
         item.addEventListener('click', (e) => {
-            e.preventDefault();
             const sectionId = item.dataset.section;
+            
+            // Skip if no section ID (external links like Settings)
+            if (!sectionId) {
+                return; // Let the link navigate normally
+            }
+            
+            e.preventDefault();
 
             // Update active nav item
             navItems.forEach(nav => nav.classList.remove('active'));
@@ -139,11 +145,18 @@ function initializeNavigation() {
 
             // Show corresponding section
             sections.forEach(section => section.classList.remove('active'));
-            document.getElementById(`${sectionId}-section`).classList.add('active');
+            const targetSection = document.getElementById(`${sectionId}-section`);
+            
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
 
             // Update page title
             const title = item.querySelector('span').textContent;
-            document.getElementById('pageTitle').textContent = title;
+            const pageTitleElement = document.getElementById('pageTitle');
+            if (pageTitleElement) {
+                pageTitleElement.textContent = title;
+            }
 
             // Reinitialize icons after section change
             initializeLucideIcons();
