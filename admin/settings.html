@@ -124,18 +124,14 @@
                         <form id="changePasswordForm" class="settings-form">
                             <div class="form-group">
                                 <label for="currentPassword">Current Password *</label>
-                                <div class="password-input-wrapper">
-                                    <input 
-                                        type="password" 
-                                        id="currentPassword" 
-                                        class="form-input"
-                                        placeholder="Enter current password"
-                                        required
-                                    />
-                                    <button type="button" class="toggle-password" data-target="currentPassword">
-                                        <i data-lucide="eye"></i>
-                                    </button>
-                                </div>
+                                <input 
+                                    type="password" 
+                                    id="currentPassword" 
+                                    class="form-input"
+                                    placeholder="Enter current password"
+                                    required
+                                    autocomplete="current-password"
+                                />
                             </div>
 
                             <div class="form-group">
@@ -214,18 +210,14 @@
 
                             <div class="form-group">
                                 <label for="emailPassword">Current Password *</label>
-                                <div class="password-input-wrapper">
-                                    <input 
-                                        type="password" 
-                                        id="emailPassword" 
-                                        class="form-input"
-                                        placeholder="Enter password to confirm"
-                                        required
-                                    />
-                                    <button type="button" class="toggle-password" data-target="emailPassword">
-                                        <i data-lucide="eye"></i>
-                                    </button>
-                                </div>
+                                <input 
+                                    type="password" 
+                                    id="emailPassword" 
+                                    class="form-input"
+                                    placeholder="Enter password to confirm"
+                                    required
+                                    autocomplete="current-password"
+                                />
                                 <p class="form-help">
                                     <i data-lucide="info"></i>
                                     A verification email will be sent to your new address
