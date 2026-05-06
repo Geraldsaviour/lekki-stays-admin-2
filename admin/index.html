@@ -7,6 +7,13 @@ n<!DOCTYPE html>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>LuxStay Admin - Login</title>
+    <script>
+        // Set theme immediately to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('admin-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
     <link rel="stylesheet" href="css/admin.css">
 </head>
 <body class="login-page">
