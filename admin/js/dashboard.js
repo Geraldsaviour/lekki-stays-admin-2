@@ -44,6 +44,23 @@ function initializeMobileMenu() {
     const sidebarClose = document.getElementById('sidebarClose');
     const navItems = document.querySelectorAll('.nav-item');
 
+    // Set dynamic viewport height for mobile
+    function setMobileViewportHeight() {
+        const vh = window.innerHeight;
+        const sidebarHeight = vh - 50; // Leave 50px space at bottom
+        sidebar.style.height = `${sidebarHeight}px`;
+        sidebar.style.maxHeight = `${sidebarHeight}px`;
+    }
+
+    // Set initial height
+    setMobileViewportHeight();
+
+    // Update on resize and orientation change
+    window.addEventListener('resize', setMobileViewportHeight);
+    window.addEventListener('orientationchange', () => {
+        setTimeout(setMobileViewportHeight, 100);
+    });
+
     // Open sidebar
     if (mobileMenuToggle) {
         mobileMenuToggle.addEventListener('click', () => {
