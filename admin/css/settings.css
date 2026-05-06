@@ -283,17 +283,24 @@
     align-items: center;
     gap: 0.5rem;
     transition: all 0.2s;
+    position: relative;
 }
 
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+    filter: brightness(1.05);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
 }
 
 .btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
+    filter: none;
 }
 
 .btn-primary i {
