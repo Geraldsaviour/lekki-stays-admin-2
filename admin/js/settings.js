@@ -322,22 +322,39 @@ function initializeLucideIcons() {
 // ============================================================================
 
 function initializeThemeToggle() {
-    const themeToggle = document.getElementById('themeToggle');
-    
     // Load saved theme or default to dark
     const savedTheme = localStorage.getItem('admin-theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
     
-    if (themeToggle) {
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    // Set active theme option
+    updateThemeUI(savedTheme);
+    
+    // Add click handlers to theme options
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const theme = option.dataset.theme;
             
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('admin-theme', newTheme);
+            // Update theme
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('admin-theme', theme);
+            
+            // Update UI
+            updateThemeUI(theme);
             
             // Reinitialize icons after theme change
             initializeLucideIcons();
         });
-    }
+    });
+}
+
+function updateThemeUI(theme) {
+    const themeOptions = document.querySelectorAll('.theme-option');
+    themeOptions.forEach(option => {
+        if (option.dataset.theme === theme) {
+            option.classList.add('active');
+        } else {
+            option.classList.remove('active');
+        }
+    });
 }

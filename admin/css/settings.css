@@ -379,3 +379,149 @@
         justify-content: center;
     }
 }
+
+
+/* Theme Selector */
+.theme-selector {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.theme-option {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.theme-option:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+}
+
+.theme-option.active {
+    border-color: var(--primary);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.theme-preview {
+    width: 100%;
+    height: 120px;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.dark-preview {
+    background: #0a0a0a;
+}
+
+.light-preview {
+    background: #ffffff;
+}
+
+.preview-header {
+    height: 30px;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dark-preview .preview-header {
+    background: #1a1a1a;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.light-preview .preview-header {
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.preview-content {
+    padding: 1rem;
+}
+
+.preview-bar {
+    height: 12px;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.preview-bar.short {
+    width: 60%;
+}
+
+.dark-preview .preview-bar {
+    background: #2a2a2a;
+}
+
+.light-preview .preview-bar {
+    background: #e5e7eb;
+}
+
+.theme-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.theme-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(212, 175, 55, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.theme-icon i {
+    width: 20px;
+    height: 20px;
+    color: var(--primary);
+}
+
+.theme-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.theme-info p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.theme-check {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.theme-option.active .theme-check {
+    opacity: 1;
+}
+
+.theme-check i {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .theme-selector {
+        grid-template-columns: 1fr;
+    }
+}

@@ -109,6 +109,66 @@
                     </div>
                 </div>
 
+                <!-- Theme Settings Card -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon">
+                            <i data-lucide="palette"></i>
+                        </div>
+                        <div>
+                            <h2>Appearance</h2>
+                            <p>Customize your dashboard theme</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="theme-selector">
+                            <div class="theme-option" data-theme="dark">
+                                <div class="theme-preview dark-preview">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-content">
+                                        <div class="preview-bar"></div>
+                                        <div class="preview-bar short"></div>
+                                    </div>
+                                </div>
+                                <div class="theme-info">
+                                    <div class="theme-icon">
+                                        <i data-lucide="moon"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Dark Mode</h3>
+                                        <p>Easy on the eyes in low light</p>
+                                    </div>
+                                </div>
+                                <div class="theme-check">
+                                    <i data-lucide="check-circle"></i>
+                                </div>
+                            </div>
+
+                            <div class="theme-option" data-theme="light">
+                                <div class="theme-preview light-preview">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-content">
+                                        <div class="preview-bar"></div>
+                                        <div class="preview-bar short"></div>
+                                    </div>
+                                </div>
+                                <div class="theme-info">
+                                    <div class="theme-icon">
+                                        <i data-lucide="sun"></i>
+                                    </div>
+                                    <div>
+                                        <h3>Light Mode</h3>
+                                        <p>Bright and clear for daytime</p>
+                                    </div>
+                                </div>
+                                <div class="theme-check">
+                                    <i data-lucide="check-circle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Change Password Card -->
                 <div class="settings-card">
                     <div class="settings-card-header">
@@ -177,12 +237,6 @@
             </div>
         </section>
     </main>
-
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-        <i data-lucide="sun" class="sun-icon"></i>
-        <i data-lucide="moon" class="moon-icon"></i>
-    </button>
 
     <!-- Success Modal -->
     <div id="successModal" class="modal">

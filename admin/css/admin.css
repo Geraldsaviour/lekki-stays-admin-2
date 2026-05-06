@@ -46,50 +46,6 @@
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
 }
 
-/* Theme Toggle Button */
-.theme-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    width: 56px;
-    height: 56px;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--shadow-lg);
-    transition: all 0.3s ease;
-    z-index: 1001;
-}
-
-.theme-toggle:hover {
-    transform: scale(1.1);
-    box-shadow: 0 12px 20px -5px rgba(212, 175, 55, 0.3);
-}
-
-.theme-toggle i {
-    width: 24px;
-    height: 24px;
-    color: var(--primary);
-    transition: transform 0.3s ease;
-}
-
-.theme-toggle:hover i {
-    transform: rotate(20deg);
-}
-
-/* Hide sun icon in dark mode, moon icon in light mode */
-[data-theme="dark"] .theme-toggle .sun-icon {
-    display: none;
-}
-
-[data-theme="light"] .theme-toggle .moon-icon {
-    display: none;
-}
-
 * {
     margin: 0;
     padding: 0;
