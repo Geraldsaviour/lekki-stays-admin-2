@@ -35,7 +35,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeThemeToggle();
     await loadDashboardData();
     initializeLucideIcons();
+    
+    // Handle hash navigation on page load
+    handleHashNavigation();
 });
+
+// Handle hash navigation
+function handleHashNavigation() {
+    const hash = window.location.hash.substring(1); // Remove the #
+    
+    if (hash && ['overview', 'bookings', 'apartments'].includes(hash)) {
+        // Find the nav item and trigger click
+        const navItem = document.querySelector(`.nav-item[data-section="${hash}"]`);
+        if (navItem) {
+            navItem.click();
+        }
+    }
+}
 
 // Initialize mobile menu
 function initializeMobileMenu() {
