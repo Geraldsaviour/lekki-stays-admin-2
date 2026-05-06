@@ -7,26 +7,44 @@ import {
 
 // Initialize settings page
 document.addEventListener('DOMContentLoaded', async () => {
-    await checkAuth();
-    await loadUserInfo();
-    initializeEventListeners();
-    initializeMobileMenu();
-    initializeLucideIcons();
+    console.log('Settings page loaded');
+    
+    try {
+        await checkAuth();
+        await loadUserInfo();
+        initializeEventListeners();
+        initializeMobileMenu();
+        initializeLucideIcons();
+    } catch (error) {
+        console.error('Initialization error:', error);
+        // Show error but don't redirect immediately
+        alert('Error loading settings: ' + error.message);
+    }
 });
 
 // Check authentication
 async function checkAuth() {
-    const user = await getCurrentUser();
+    console.log('Checking auth...');
     
-    if (!user) {
-        window.location.href = 'index.html';
-        return;
-    }
-    
-    // Display user email in sidebar
-    const userEmailElement = document.getElementById('userEmail');
-    if (userEmailElement) {
-        userEmailElement.textContent = user.email;
+    try {
+        const user = await getCurrentUser();
+        
+        if (!user) {
+            console.log('No user found, redirecting...');
+            window.location.href = 'index.html';
+            return;
+        }
+        
+        console.log('User authenticated:', user.email);
+        
+        // Display user email in sidebar
+        const userEmailElement = document.getElementById('userEmail');
+        if (userEmailElement) {
+            userEmailElement.textContent = user.email;
+        }
+    } catch (error) {
+        console.error('Auth check error:', error);
+        throw error;
     }
 }
 
