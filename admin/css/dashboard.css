@@ -966,7 +966,8 @@
         left: -100%;
         width: 280px;
         max-width: 85vw;
-        height: 100vh;
+        height: calc(100vh - 50px);
+        max-height: calc(100vh - 50px);
         z-index: 1000;
         transition: left 0.3s ease;
         border-right: 1px solid var(--border);

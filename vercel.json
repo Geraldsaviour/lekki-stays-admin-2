@@ -33,6 +33,14 @@
       "dest": "/admin/dashboard.html"
     },
     {
+      "src": "/settings.html",
+      "dest": "/admin/settings.html"
+    },
+    {
+      "src": "/settings",
+      "dest": "/admin/settings.html"
+    },
+    {
       "src": "/",
       "dest": "/admin/index.html"
     },

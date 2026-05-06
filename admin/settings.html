@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LuxStay Admin - Settings</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+</head>
+<body class="dashboard-page">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+        <i data-lucide="menu"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i data-lucide="building-2"></i>
+                <h2>LuxStay</h2>
+            </div>
+            <p class="sidebar-subtitle">Admin Dashboard</p>
+            <button class="sidebar-close" id="sidebarClose" aria-label="Close menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="dashboard.html#overview" class="nav-item">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Overview</span>
+            </a>
+            <a href="dashboard.html#bookings" class="nav-item">
+                <i data-lucide="calendar"></i>
+                <span>Bookings</span>
+            </a>
+            <a href="dashboard.html#apartments" class="nav-item">
+                <i data-lucide="home"></i>
+                <span>Apartments</span>
+            </a>
+            <a href="settings.html" class="nav-item active">
+                <i data-lucide="settings"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i data-lucide="user"></i>
+                </div>
+                <div class="user-details">
+                    <p class="user-email" id="userEmail">Loading...</p>
+                </div>
+            </div>
+            <button class="btn-logout" id="logoutBtn">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>Settings</h1>
+        </header>
+
+        <!-- Settings Content -->
+        <section class="content-section active">
+            <div class="settings-container">
+                
+                <!-- Profile Information Card -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon">
+                            <i data-lucide="user-circle"></i>
+                        </div>
+                        <div>
+                            <h2>Profile Information</h2>
+                            <p>View your account details</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Email Address</label>
+                                <p id="currentEmail">Loading...</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Account Created</label>
+                                <p id="accountCreated">Loading...</p>
+                            </div>
+                            <div class="info-item">
+                                <label>Last Sign In</label>
+                                <p id="lastSignIn">Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Change Password Card -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon">
+                            <i data-lucide="lock"></i>
+                        </div>
+                        <div>
+                            <h2>Change Password</h2>
+                            <p>Update your password to keep your account secure</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <form id="changePasswordForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password *</label>
+                                <div class="password-input-wrapper">
+                                    <input 
+                                        type="password" 
+                                        id="currentPassword" 
+                                        class="form-input"
+                                        placeholder="Enter current password"
+                                        required
+                                    />
+                                    <button type="button" class="toggle-password" data-target="currentPassword">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="newPassword">New Password *</label>
+                                <div class="password-input-wrapper">
+                                    <input 
+                                        type="password" 
+                                        id="newPassword" 
+                                        class="form-input"
+                                        placeholder="Enter new password (min. 8 characters)"
+                                        required
+                                        minlength="8"
+                                    />
+                                    <button type="button" class="toggle-password" data-target="newPassword">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength">
+                                    <div class="strength-bar">
+                                        <div class="strength-bar-fill"></div>
+                                    </div>
+                                    <p class="strength-text">Password strength: <span>-</span></p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password *</label>
+                                <div class="password-input-wrapper">
+                                    <input 
+                                        type="password" 
+                                        id="confirmPassword" 
+                                        class="form-input"
+                                        placeholder="Re-enter new password"
+                                        required
+                                    />
+                                    <button type="button" class="toggle-password" data-target="confirmPassword">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </div>
+                                <p class="form-error" id="passwordError"></p>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary" id="updatePasswordBtn">
+                                    <i data-lucide="check"></i>
+                                    Update Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Change Email Card -->
+                <div class="settings-card">
+                    <div class="settings-card-header">
+                        <div class="settings-card-icon">
+                            <i data-lucide="mail"></i>
+                        </div>
+                        <div>
+                            <h2>Change Email Address</h2>
+                            <p>Update your email address (verification required)</p>
+                        </div>
+                    </div>
+                    <div class="settings-card-body">
+                        <form id="changeEmailForm" class="settings-form">
+                            <div class="form-group">
+                                <label for="newEmail">New Email Address *</label>
+                                <input 
+                                    type="email" 
+                                    id="newEmail" 
+                                    class="form-input"
+                                    placeholder="Enter new email address"
+                                    required
+                                />
+                            </div>
+
+                            <div class="form-group">
+                                <label for="emailPassword">Current Password *</label>
+                                <div class="password-input-wrapper">
+                                    <input 
+                                        type="password" 
+                                        id="emailPassword" 
+                                        class="form-input"
+                                        placeholder="Enter password to confirm"
+                                        required
+                                    />
+                                    <button type="button" class="toggle-password" data-target="emailPassword">
+                                        <i data-lucide="eye"></i>
+                                    </button>
+                                </div>
+                                <p class="form-help">
+                                    <i data-lucide="info"></i>
+                                    A verification email will be sent to your new address
+                                </p>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary" id="updateEmailBtn">
+                                    <i data-lucide="mail"></i>
+                                    Update Email
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-alert">
+            <div class="modal-header">
+                <h2>Success</h2>
+                <button class="modal-close" id="closeSuccessModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-icon success">
+                    <i data-lucide="check-circle"></i>
+                </div>
+                <p id="successMessage" class="alert-message"></p>
+                <div class="alert-actions">
+                    <button class="btn-primary" id="closeSuccessBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error Modal -->
+    <div id="errorModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-alert">
+            <div class="modal-header">
+                <h2>Error</h2>
+                <button class="modal-close" id="closeErrorModal">
+                    <i data-lucide="x"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert-icon error">
+                    <i data-lucide="alert-circle"></i>
+                </div>
+                <p id="errorMessage" class="alert-message"></p>
+                <div class="alert-actions">
+                    <button class="btn-primary" id="closeErrorBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/settings.js"></script>
+</body>
+</html>
