@@ -288,8 +288,8 @@
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
-    filter: brightness(1.05);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, #E5C04A, #F4E4BC);
 }
 
 .btn-primary:active {
@@ -300,7 +300,11 @@
     opacity: 0.5;
     cursor: not-allowed;
     transform: none;
-    filter: none;
+}
+
+.btn-primary:disabled:hover {
+    background: linear-gradient(135deg, var(--primary), #F4E4BC);
+    box-shadow: none;
 }
 
 .btn-primary i {
