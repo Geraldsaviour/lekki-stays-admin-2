@@ -148,9 +148,14 @@ async function handleSendPasswordReset() {
     try {
         const user = await getCurrentUser();
         
+        // Use the actual production URL for redirect
+        const redirectUrl = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000/dashboard.html'
+            : 'https://lekki-stays-admin-2.vercel.app/dashboard.html';
+        
         // Send password reset email
         const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
-            redirectTo: `${window.location.origin}/dashboard.html`
+            redirectTo: redirectUrl
         });
         
         if (error) throw error;
