@@ -9,6 +9,7 @@
     --danger: #EF4444;
     --info: #3B82F6;
     
+    /* Dark Mode (Default) */
     --bg-primary: #0a0a0a;
     --bg-secondary: #111;
     --bg-tertiary: #1a1a1a;
@@ -17,12 +18,76 @@
     --text-primary: #F5F0E8;
     --text-secondary: #9CA3AF;
     --text-muted: #6B7280;
+    --text-tertiary: #4B5563;
     
     --border: #2a2a2a;
     --border-light: #333;
     
     --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+}
+
+/* Light Mode */
+[data-theme="light"] {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --bg-card: #ffffff;
+    
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --text-muted: #9CA3AF;
+    --text-tertiary: #D1D5DB;
+    
+    --border: #e5e7eb;
+    --border-light: #f3f4f6;
+    
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.15);
+}
+
+/* Theme Toggle Button */
+.theme-toggle {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 56px;
+    height: 56px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 20px -5px rgba(212, 175, 55, 0.3);
+}
+
+.theme-toggle i {
+    width: 24px;
+    height: 24px;
+    color: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle:hover i {
+    transform: rotate(20deg);
+}
+
+/* Hide sun icon in dark mode, moon icon in light mode */
+[data-theme="dark"] .theme-toggle .sun-icon {
+    display: none;
+}
+
+[data-theme="light"] .theme-toggle .moon-icon {
+    display: none;
 }
 
 * {

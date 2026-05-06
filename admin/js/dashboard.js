@@ -32,6 +32,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeEventListeners();
     initializeMobileMenu();
     initializeReceiptModal();
+    initializeThemeToggle();
     await loadDashboardData();
     initializeLucideIcons();
 });
@@ -1000,4 +1001,30 @@ async function showReceiptModal(booking) {
     modal.classList.add('active');
     
     initializeLucideIcons();
+}
+
+
+// ============================================================================
+// THEME TOGGLE
+// ============================================================================
+
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    
+    // Load saved theme or default to dark
+    const savedTheme = localStorage.getItem('admin-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('admin-theme', newTheme);
+            
+            // Reinitialize icons after theme change
+            initializeLucideIcons();
+        });
+    }
 }

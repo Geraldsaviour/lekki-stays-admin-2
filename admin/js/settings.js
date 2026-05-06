@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await loadUserInfo();
         initializeEventListeners();
         initializeMobileMenu();
+        initializeThemeToggle();
         initializeLucideIcons();
     } catch (error) {
         console.error('Initialization error:', error);
@@ -312,5 +313,31 @@ function formatDate(date) {
 function initializeLucideIcons() {
     if (typeof lucide !== 'undefined') {
         lucide.createIcons();
+    }
+}
+
+
+// ============================================================================
+// THEME TOGGLE
+// ============================================================================
+
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    
+    // Load saved theme or default to dark
+    const savedTheme = localStorage.getItem('admin-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('admin-theme', newTheme);
+            
+            // Reinitialize icons after theme change
+            initializeLucideIcons();
+        });
     }
 }
