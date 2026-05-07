@@ -239,9 +239,31 @@
 
 /* Apartment Form */
 .apartment-form {
-    max-height: 70vh;
+    max-height: calc(70vh - 120px);
     overflow-y: auto;
-    padding-right: 0.5rem;
+    padding: 1.5rem;
+    padding-right: 1rem;
+    margin-bottom: 0;
+    flex: 1;
+}
+
+/* Scrollbar styling for apartment form */
+.apartment-form::-webkit-scrollbar {
+    width: 8px;
+}
+
+.apartment-form::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 4px;
+}
+
+.apartment-form::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+.apartment-form::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
 }
 
 .form-section {
@@ -408,15 +430,28 @@
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
+    padding: 1.5rem;
+    margin: 0;
     border-top: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 /* Modal Large */
 .modal-large {
     max-width: 900px;
     width: 90%;
+}
+
+.modal-large .modal-body {
+    padding: 0;
+    max-height: 70vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Mobile Responsive */
