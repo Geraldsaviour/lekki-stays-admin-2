@@ -469,6 +469,113 @@
     border-radius: 4px;
 }
 
+/* Google Maps Input */
+.maps-input-wrapper {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+}
+
+.maps-input-wrapper input {
+    flex: 1;
+}
+
+.btn-extract {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--primary);
+    color: #0a0a0a;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-extract:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+}
+
+.btn-extract i {
+    width: 16px;
+    height: 16px;
+}
+
+.maps-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+}
+
+.coords-preview {
+    margin-top: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease;
+}
+
+.coords-preview-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.coords-preview-inner i[data-lucide="check-circle"] {
+    width: 18px;
+    height: 18px;
+    color: #10B981;
+    flex-shrink: 0;
+}
+
+.coords-preview-inner span {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+    flex: 1;
+}
+
+.coords-preview-inner strong {
+    color: #10B981;
+}
+
+.coords-preview-inner a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.coords-preview-inner a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+}
+
+.coords-preview-inner a i {
+    width: 14px;
+    height: 14px;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 /* Form Actions */
 .form-actions {
     display: flex;

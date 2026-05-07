@@ -152,6 +152,8 @@ class ApartmentManager {
     } else {
       form.reset();
       this.renderAmenitiesCheckboxes([]);
+      document.getElementById('coordsPreview').style.display = 'none';
+      document.getElementById('apartmentGoogleMapsLink').value = '';
     }
 
     modal.classList.add('active');
@@ -169,10 +171,23 @@ class ApartmentManager {
     document.getElementById('apartmentBathrooms').value = apartment.bathrooms || 1;
     document.getElementById('apartmentGuests').value = apartment.max_guests || 1;
     document.getElementById('apartmentDescription').value = apartment.description || '';
-    document.getElementById('apartmentLatitude').value = apartment.latitude || '';
-    document.getElementById('apartmentLongitude').value = apartment.longitude || '';
     document.getElementById('apartmentFeatured').checked = apartment.featured || false;
     document.getElementById('apartmentActive').checked = apartment.active !== false;
+
+    // Restore lat/lng and show preview if available
+    const lat = apartment.latitude;
+    const lng = apartment.longitude;
+    document.getElementById('apartmentLatitude').value = lat || '';
+    document.getElementById('apartmentLongitude').value = lng || '';
+
+    if (lat && lng) {
+      const mapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
+      document.getElementById('apartmentGoogleMapsLink').value = mapsUrl;
+      this.showCoordsPreview(lat, lng);
+    } else {
+      document.getElementById('apartmentGoogleMapsLink').value = '';
+      document.getElementById('coordsPreview').style.display = 'none';
+    }
 
     this.renderAmenitiesCheckboxes(apartment.amenities || []);
     this.renderImagePreviews(apartment.images || []);
@@ -796,12 +811,91 @@ class ApartmentManager {
   }
 
   /**
+   * Extract coordinates from a Google Maps URL
+   */
+  extractCoordsFromUrl(url) {
+    if (!url) return null;
+
+    // Pattern 1: @lat,lng  (most common - from share link)
+    let match = url.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+    // Pattern 2: ?q=lat,lng
+    match = url.match(/[?&]q=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+    // Pattern 3: /place/.../@lat,lng
+    match = url.match(/\/place\/[^/]+\/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+    // Pattern 4: ll=lat,lng
+    match = url.match(/ll=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+    // Pattern 5: maps/search/lat,lng
+    match = url.match(/maps\/search\/(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+
+    return null;
+  }
+
+  /**
+   * Show coordinates preview
+   */
+  showCoordsPreview(lat, lng) {
+    const preview = document.getElementById('coordsPreview');
+    const coordsText = document.getElementById('coordsText');
+    const mapLink = document.getElementById('coordsMapLink');
+
+    coordsText.textContent = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+    mapLink.href = `https://www.google.com/maps?q=${lat},${lng}`;
+    preview.style.display = 'block';
+
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+  }
+
+  /**
+   * Handle Google Maps link extraction
+   */
+  handleExtractCoords() {
+    const input = document.getElementById('apartmentGoogleMapsLink');
+    const url = input.value.trim();
+
+    if (!url) {
+      this.showNotification('Please paste a Google Maps link first', 'warning');
+      return;
+    }
+
+    const coords = this.extractCoordsFromUrl(url);
+
+    if (coords) {
+      document.getElementById('apartmentLatitude').value = coords.lat;
+      document.getElementById('apartmentLongitude').value = coords.lng;
+      this.showCoordsPreview(coords.lat, coords.lng);
+      this.showNotification('Location extracted successfully', 'success');
+    } else {
+      document.getElementById('coordsPreview').style.display = 'none';
+      this.showNotification('Could not extract coordinates. Try sharing the location directly from Google Maps.', 'error');
+    }
+  }
+
+  /**
    * Attach event listeners
    */
   attachEventListeners() {
     // Add apartment button
     document.getElementById('addApartmentBtn')?.addEventListener('click', () => {
       this.showApartmentModal();
+    });
+
+    // Extract coordinates button
+    document.getElementById('extractCoordsBtn')?.addEventListener('click', () => {
+      this.handleExtractCoords();
+    });
+
+    // Also extract on paste into the maps link field
+    document.getElementById('apartmentGoogleMapsLink')?.addEventListener('paste', (e) => {
+      setTimeout(() => this.handleExtractCoords(), 100);
     });
 
     // Filter buttons

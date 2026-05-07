@@ -288,17 +288,41 @@
 
                     <!-- Map Position -->
                     <div class="form-section">
-                        <h3 class="form-section-title">Map Position (Optional)</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="apartmentLatitude">Latitude</label>
-                                <input type="number" id="apartmentLatitude" name="latitude" step="0.000001" placeholder="6.4474">
+                        <h3 class="form-section-title">
+                            <i data-lucide="map-pin"></i>
+                            Map Location (Optional)
+                        </h3>
+                        <div class="form-group">
+                            <label for="apartmentGoogleMapsLink">Google Maps Link</label>
+                            <div class="maps-input-wrapper">
+                                <input 
+                                    type="url" 
+                                    id="apartmentGoogleMapsLink" 
+                                    name="google_maps_link"
+                                    placeholder="Paste your Google Maps link here..."
+                                >
+                                <button type="button" id="extractCoordsBtn" class="btn-extract">
+                                    <i data-lucide="crosshair"></i>
+                                    Extract
+                                </button>
                             </div>
-                            <div class="form-group">
-                                <label for="apartmentLongitude">Longitude</label>
-                                <input type="number" id="apartmentLongitude" name="longitude" step="0.000001" placeholder="3.4700">
+                            <small class="maps-hint">
+                                Open Google Maps → Right-click the location → Copy link or share → Paste here
+                            </small>
+                        </div>
+                        <div class="coords-preview" id="coordsPreview" style="display:none;">
+                            <div class="coords-preview-inner">
+                                <i data-lucide="check-circle"></i>
+                                <span>Location extracted: <strong id="coordsText"></strong></span>
+                                <a id="coordsMapLink" href="#" target="_blank" rel="noopener">
+                                    <i data-lucide="external-link"></i>
+                                    Preview on Maps
+                                </a>
                             </div>
                         </div>
+                        <!-- Hidden fields to store extracted coordinates -->
+                        <input type="hidden" id="apartmentLatitude" name="latitude">
+                        <input type="hidden" id="apartmentLongitude" name="longitude">
                     </div>
 
                     <!-- Amenities -->
