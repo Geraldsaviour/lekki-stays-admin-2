@@ -447,8 +447,80 @@ class ApartmentManager {
    * Show notification
    */
   showNotification(message, type = 'info') {
-    // You can implement a toast notification system here
-    alert(message);
+    // Create toast container if it doesn't exist
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+      container = document.createElement('div');
+      container.id = 'toastContainer';
+      container.className = 'toast-container';
+      document.body.appendChild(container);
+    }
+
+    // Get icon based on type
+    const icons = {
+      success: 'check-circle',
+      error: 'x-circle',
+      warning: 'alert-triangle',
+      info: 'info'
+    };
+
+    const titles = {
+      success: 'Success',
+      error: 'Error',
+      warning: 'Warning',
+      info: 'Info'
+    };
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+      <div class="toast-icon">
+        <i data-lucide="${icons[type] || 'info'}"></i>
+      </div>
+      <div class="toast-content">
+        <div class="toast-title">${titles[type] || 'Notification'}</div>
+        <div class="toast-message">${message}</div>
+      </div>
+      <button class="toast-close">
+        <i data-lucide="x"></i>
+      </button>
+    `;
+
+    // Add to container
+    container.appendChild(toast);
+
+    // Initialize Lucide icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+
+    // Close button handler
+    const closeBtn = toast.querySelector('.toast-close');
+    closeBtn.addEventListener('click', () => {
+      this.removeToast(toast);
+    });
+
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+      this.removeToast(toast);
+    }, 5000);
+  }
+
+  /**
+   * Remove toast with animation
+   */
+  removeToast(toast) {
+    toast.classList.add('removing');
+    setTimeout(() => {
+      toast.remove();
+      
+      // Remove container if empty
+      const container = document.getElementById('toastContainer');
+      if (container && container.children.length === 0) {
+        container.remove();
+      }
+    }, 300);
   }
 
   /**
