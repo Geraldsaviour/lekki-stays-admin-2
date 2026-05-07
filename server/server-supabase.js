@@ -82,6 +82,9 @@ app.use('/api/apartments', require('./routes-supabase/apartments'));
 app.use('/api/bookings', require('./routes-supabase/bookings'));
 app.use('/api/availability', require('./routes-supabase/availability'));
 
+// Admin routes
+app.use('/api/admin/apartments', require('./routes-supabase/admin-apartments'));
+
 // ============================================================================
 // HEALTH CHECK & MONITORING
 // ============================================================================
