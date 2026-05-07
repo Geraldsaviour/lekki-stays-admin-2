@@ -8,6 +8,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>LuxStay Admin - Dashboard</title>
     <script>
+        // Set API URL immediately
+        window.API_URL = window.location.origin;
+        
         // Set theme immediately to prevent flash
         (function() {
             const savedTheme = localStorage.getItem('admin-theme') || 'dark';
