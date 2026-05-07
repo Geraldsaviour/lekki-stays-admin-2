@@ -4,7 +4,6 @@
  */
 
 import { AMENITIES_PRESET, LOCATIONS } from './amenities-preset.js';
-import { supabase } from './config.js';
 
 class ApartmentManager {
   constructor() {
