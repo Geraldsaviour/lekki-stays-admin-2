@@ -256,20 +256,20 @@ router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Check for active bookings
+    // Check for any bookings (not just active ones)
     const { data: bookings, error: bookingError } = await supabaseAdmin
       .from('bookings')
-      .select('id')
+      .select('id, status')
       .eq('apartment_id', id)
-      .in('status', ['pending', 'confirmed', 'payment_pending', 'paid'])
-      .limit(1);
+      .in('status', ['pending', 'confirmed', 'payment_pending', 'paid']);
 
     if (bookingError) throw bookingError;
 
     if (bookings && bookings.length > 0) {
       return res.status(400).json({
         success: false,
-        error: 'Cannot delete apartment with active bookings. Put it on hold instead.'
+        error: `Cannot delete apartment. It has ${bookings.length} active booking(s). Please cancel or complete these bookings first, or put the apartment on hold instead.`,
+        activeBookings: bookings.length
       });
     }
 
@@ -313,6 +313,25 @@ router.patch('/:id/hold', async (req, res) => {
   try {
     const { id } = req.params;
     const { on_hold, hold_reason } = req.body;
+
+    // If putting on hold, check for active bookings
+    if (on_hold === true) {
+      const { data: bookings, error: bookingError } = await supabaseAdmin
+        .from('bookings')
+        .select('id, status')
+        .eq('apartment_id', id)
+        .in('status', ['pending', 'confirmed', 'payment_pending', 'paid']);
+
+      if (bookingError) throw bookingError;
+
+      if (bookings && bookings.length > 0) {
+        return res.status(400).json({
+          success: false,
+          error: `Cannot put apartment on hold. It has ${bookings.length} active booking(s). Please cancel or complete these bookings first.`,
+          activeBookings: bookings.length
+        });
+      }
+    }
 
     const updateData = {
       on_hold: on_hold === true,
