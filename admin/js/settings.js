@@ -18,8 +18,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeLucideIcons();
     } catch (error) {
         console.error('Initialization error:', error);
-        // Show error but don't redirect immediately
-        alert('Error loading settings: ' + error.message);
+        // Show error using custom modal
+        showErrorModal('Error loading settings: ' + error.message);
     }
 });
 

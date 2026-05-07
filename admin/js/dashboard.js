@@ -569,7 +569,7 @@ async function showBookingDetails(bookingId) {
         initializeLucideIcons();
     } catch (error) {
         console.error('Error loading booking details:', error);
-        alert('Failed to load booking details.');
+        await showAlert('Failed to load booking details.', 'error');
     }
 }
 
