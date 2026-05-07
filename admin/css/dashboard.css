@@ -852,24 +852,11 @@ button,
     transform: translateY(-1px);
 }
 
-/* Light mode hover - text becomes black */
-[data-theme="light"] .btn-secondary:hover {
-    color: var(--bg-primary);
-    border-color: var(--bg-primary);
-}
-
-/* Dark mode hover - text becomes gold */
-[data-theme="dark"] .btn-secondary:hover,
-:root:not([data-theme="light"]) .btn-secondary:hover {
-    color: var(--primary);
-    border-color: var(--primary);
-}
-
 .btn-primary {
     background: var(--primary);
-    color: var(--bg-primary);
+    color: #0a0a0a;
     border: 2px solid var(--primary);
-    font-weight: 500;
+    font-weight: 600;
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     cursor: pointer;
@@ -884,22 +871,11 @@ button,
 }
 
 .btn-primary:hover {
-    background: var(--bg-primary);
+    background: transparent;
     border-color: var(--primary);
     color: var(--primary);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
-}
-
-/* Light mode hover - text becomes black */
-[data-theme="light"] .btn-primary:hover {
-    color: var(--bg-primary);
-}
-
-/* Dark mode hover - text becomes gold */
-[data-theme="dark"] .btn-primary:hover,
-:root:not([data-theme="light"]) .btn-primary:hover {
-    color: var(--primary);
 }
 
 .btn-primary i,
