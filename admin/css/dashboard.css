@@ -871,11 +871,11 @@ button,
 }
 
 .btn-primary:hover {
-    background: transparent;
+    background: var(--primary-dark);
     border-color: var(--primary);
-    color: var(--primary);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    color: #0a0a0a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 .btn-primary i,
