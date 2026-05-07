@@ -31,6 +31,19 @@ button,
     overflow: hidden;
 }
 
+/* Settings page needs to scroll - override dashboard-page lock */
+.settings-page {
+    display: flex;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+}
+
+.settings-page .main-content {
+    overflow-y: auto;
+    height: 100vh;
+}
+
 /* Mobile Menu Toggle */
 .mobile-menu-toggle {
     display: none;
