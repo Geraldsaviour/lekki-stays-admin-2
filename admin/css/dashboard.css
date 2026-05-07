@@ -311,11 +311,26 @@ button,
     display: none;
     flex: 1;
     overflow-y: auto;
-    padding: 2.5rem;
+    padding: 0;
+    background: var(--bg-primary);
 }
 
 .content-section.active {
     display: block;
+}
+
+/* Add padding to content inside section, not the section itself */
+.content-section > *:not(.section-toolbar) {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.content-section > .stats-grid,
+.content-section > .recent-section,
+.content-section > .bookings-list,
+.content-section > #apartmentsList {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
 }
 
 /* Stats Grid */
@@ -417,6 +432,39 @@ button,
 /* Section Toolbar */
 .section-toolbar {
     margin-bottom: 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #0a0a0a !important;
+    padding: 1.5rem 2.5rem;
+    margin-left: -2.5rem;
+    margin-right: -2.5rem;
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+[data-theme="light"] .section-toolbar {
+    background: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.section-toolbar::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: #0a0a0a;
+    z-index: -1;
+    pointer-events: none;
+}
+
+[data-theme="light"] .section-toolbar::before {
+    background: #ffffff;
 }
 
 .filters {

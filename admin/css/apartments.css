@@ -14,12 +14,10 @@
     top: 0;
     z-index: 100;
     background: #0a0a0a !important;
-    padding: 1.5rem 0;
+    padding: 1.5rem 2.5rem;
     margin-top: 0;
-    margin-left: -2.5rem;
-    margin-right: -2.5rem;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
+    margin-left: 0;
+    margin-right: 0;
     border-bottom: 2px solid var(--border);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
