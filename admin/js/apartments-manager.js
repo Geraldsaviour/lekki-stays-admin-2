@@ -26,11 +26,7 @@ class ApartmentManager {
    */
   async loadApartments() {
     try {
-      const response = await fetch(`${window.API_URL}/api/admin/apartments`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        }
-      });
+      const response = await fetch(`${window.API_URL}/api/admin/apartments`);
 
       const data = await response.json();
       
@@ -261,8 +257,7 @@ class ApartmentManager {
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(apartmentData)
       });
@@ -315,8 +310,7 @@ class ApartmentManager {
       const response = await fetch(`${window.API_URL}/api/admin/apartments/${id}/hold`, {
         method: 'PATCH',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({ on_hold: onHold, hold_reason: holdReason })
       });
@@ -346,10 +340,7 @@ class ApartmentManager {
 
     try {
       const response = await fetch(`${window.API_URL}/api/admin/apartments/${id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-        }
+        method: 'DELETE'
       });
 
       const data = await response.json();
@@ -386,9 +377,6 @@ class ApartmentManager {
         `${window.API_URL}/api/admin/apartments/${this.editingApartment.id}/images`,
         {
           method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
-          },
           body: formData
         }
       );
@@ -424,8 +412,7 @@ class ApartmentManager {
         {
           method: 'DELETE',
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('adminToken')}`
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({ imageUrl })
         }
