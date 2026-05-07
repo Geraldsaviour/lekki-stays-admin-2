@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "name": "lekki-stays-admin",
   "builds": [
     {
       "src": "server/server-supabase.js",
@@ -53,7 +54,8 @@
       "source": "/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "X-Content-Type-Options", "value": "nosniff" }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" }
       ]
     }
   ],
