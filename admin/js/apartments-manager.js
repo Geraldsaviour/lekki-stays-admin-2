@@ -302,7 +302,11 @@ class ApartmentManager {
     let holdReason = null;
 
     if (onHold) {
-      holdReason = prompt('Reason for putting apartment on hold:');
+      holdReason = await this.showPrompt(
+        'Reason for putting apartment on hold:',
+        'Put Apartment on Hold',
+        'Enter reason...'
+      );
       if (holdReason === null) return; // User cancelled
     }
 
@@ -334,9 +338,14 @@ class ApartmentManager {
    * Delete apartment
    */
   async deleteApartment(id) {
-    if (!confirm('Are you sure you want to delete this apartment? This action cannot be undone.')) {
-      return;
-    }
+    const confirmed = await this.showConfirm(
+      'Are you sure you want to delete this apartment? This action cannot be undone.',
+      'Delete Apartment',
+      'Delete',
+      'danger'
+    );
+    
+    if (!confirmed) return;
 
     try {
       const response = await fetch(`${window.API_URL}/api/admin/apartments/${id}`, {
@@ -402,9 +411,14 @@ class ApartmentManager {
   async removeImage(imageUrl) {
     if (!this.editingApartment) return;
 
-    if (!confirm('Are you sure you want to remove this image?')) {
-      return;
-    }
+    const confirmed = await this.showConfirm(
+      'Are you sure you want to remove this image?',
+      'Remove Image',
+      'Remove',
+      'danger'
+    );
+    
+    if (!confirmed) return;
 
     try {
       const response = await fetch(
@@ -521,6 +535,249 @@ class ApartmentManager {
         container.remove();
       }
     }, 300);
+  }
+
+  /**
+   * Show custom prompt modal
+   */
+  showPrompt(message, title = 'Input Required', placeholder = '') {
+    console.log('showPrompt called:', { message, title, placeholder });
+    return new Promise((resolve) => {
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'custom-modal-overlay';
+      overlay.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10001; display: flex; align-items: center; justify-content: center;';
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'custom-modal prompt-modal';
+      modal.innerHTML = `
+        <div class="custom-modal-header">
+          <h3>${title}</h3>
+        </div>
+        <div class="custom-modal-body">
+          <p class="modal-message">${message}</p>
+          <input type="text" class="modal-input" placeholder="${placeholder}" autofocus>
+        </div>
+        <div class="custom-modal-footer">
+          <button class="modal-btn modal-btn-cancel">
+            <i data-lucide="x"></i>
+            Cancel
+          </button>
+          <button class="modal-btn modal-btn-primary">
+            <i data-lucide="check"></i>
+            OK
+          </button>
+        </div>
+      `;
+      
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+      console.log('Modal appended to body');
+      
+      // Initialize icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+        console.log('Modal activated');
+      });
+      
+      const input = modal.querySelector('.modal-input');
+      const cancelBtn = modal.querySelector('.modal-btn-cancel');
+      const okBtn = modal.querySelector('.modal-btn-primary');
+      
+      // Focus input
+      setTimeout(() => input.focus(), 100);
+      
+      const cleanup = (value) => {
+        console.log('Modal cleanup with value:', value);
+        overlay.classList.remove('active');
+        setTimeout(() => {
+          overlay.remove();
+        }, 300);
+        resolve(value);
+      };
+      
+      // Event listeners
+      cancelBtn.addEventListener('click', () => cleanup(null));
+      okBtn.addEventListener('click', () => cleanup(input.value.trim() || null));
+      
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          cleanup(input.value.trim() || null);
+        } else if (e.key === 'Escape') {
+          cleanup(null);
+        }
+      });
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          cleanup(null);
+        }
+      });
+    });
+  }
+
+  /**
+   * Show custom confirm modal
+   */
+  showConfirm(message, title = 'Confirm Action', confirmText = 'Confirm', type = 'primary') {
+    return new Promise((resolve) => {
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'custom-modal-overlay';
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'custom-modal confirm-modal';
+      modal.innerHTML = `
+        <div class="custom-modal-header">
+          <div class="modal-icon modal-icon-${type}">
+            <i data-lucide="${type === 'danger' ? 'alert-triangle' : 'help-circle'}"></i>
+          </div>
+          <h3>${title}</h3>
+        </div>
+        <div class="custom-modal-body">
+          <p class="modal-message">${message}</p>
+        </div>
+        <div class="custom-modal-footer">
+          <button class="modal-btn modal-btn-cancel">
+            <i data-lucide="x"></i>
+            Cancel
+          </button>
+          <button class="modal-btn modal-btn-${type}">
+            <i data-lucide="check"></i>
+            ${confirmText}
+          </button>
+        </div>
+      `;
+      
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+      
+      // Initialize icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+      });
+      
+      const cancelBtn = modal.querySelector('.modal-btn-cancel');
+      const confirmBtn = modal.querySelector(`.modal-btn-${type}`);
+      
+      const cleanup = (value) => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+          overlay.remove();
+        }, 300);
+        resolve(value);
+      };
+      
+      // Event listeners
+      cancelBtn.addEventListener('click', () => cleanup(false));
+      confirmBtn.addEventListener('click', () => cleanup(true));
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          cleanup(false);
+        }
+      });
+      
+      // Keyboard support
+      document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+          cleanup(false);
+          document.removeEventListener('keydown', escHandler);
+        }
+      });
+    });
+  }
+
+  /**
+   * Show custom alert modal
+   */
+  showAlert(message, title = 'Notice', type = 'info') {
+    return new Promise((resolve) => {
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.className = 'custom-modal-overlay';
+      
+      // Create modal
+      const modal = document.createElement('div');
+      modal.className = 'custom-modal alert-modal';
+      
+      const icons = {
+        success: 'check-circle',
+        error: 'x-circle',
+        warning: 'alert-triangle',
+        info: 'info'
+      };
+      
+      modal.innerHTML = `
+        <div class="custom-modal-header">
+          <div class="modal-icon modal-icon-${type}">
+            <i data-lucide="${icons[type] || 'info'}"></i>
+          </div>
+          <h3>${title}</h3>
+        </div>
+        <div class="custom-modal-body">
+          <p class="modal-message">${message}</p>
+        </div>
+        <div class="custom-modal-footer">
+          <button class="modal-btn modal-btn-primary">
+            <i data-lucide="check"></i>
+            OK
+          </button>
+        </div>
+      `;
+      
+      overlay.appendChild(modal);
+      document.body.appendChild(overlay);
+      
+      // Initialize icons
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      
+      // Animate in
+      requestAnimationFrame(() => {
+        overlay.classList.add('active');
+      });
+      
+      const okBtn = modal.querySelector('.modal-btn-primary');
+      
+      const cleanup = () => {
+        overlay.classList.remove('active');
+        setTimeout(() => {
+          overlay.remove();
+        }, 300);
+        resolve();
+      };
+      
+      // Event listeners
+      okBtn.addEventListener('click', cleanup);
+      
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          cleanup();
+        }
+      });
+      
+      // Keyboard support
+      document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape' || e.key === 'Enter') {
+          cleanup();
+          document.removeEventListener('keydown', escHandler);
+        }
+      });
+    });
   }
 
   /**
