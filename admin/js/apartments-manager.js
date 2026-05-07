@@ -296,19 +296,33 @@ class ApartmentManager {
    * Toggle hold status
    */
   async toggleHold(id) {
+    console.log('toggleHold called for apartment:', id);
     const apartment = this.apartments.find(apt => apt.id === id);
-    if (!apartment) return;
+    if (!apartment) {
+      console.error('Apartment not found:', id);
+      return;
+    }
 
     const onHold = !apartment.on_hold;
     let holdReason = null;
 
     if (onHold) {
-      holdReason = await this.showPrompt(
-        'Reason for putting apartment on hold:',
-        'Put Apartment on Hold',
-        'Enter reason...'
-      );
-      if (holdReason === null) return; // User cancelled
+      console.log('Calling showPrompt...');
+      try {
+        holdReason = await this.showPrompt(
+          'Reason for putting apartment on hold:',
+          'Put Apartment on Hold',
+          'Enter reason...'
+        );
+        console.log('showPrompt returned:', holdReason);
+      } catch (error) {
+        console.error('Error in showPrompt:', error);
+        return;
+      }
+      if (holdReason === null) {
+        console.log('User cancelled');
+        return; // User cancelled
+      }
     }
 
     try {
