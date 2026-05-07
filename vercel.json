@@ -41,21 +41,12 @@
       "dest": "/admin/settings.html"
     },
     {
-      "src": "/404.html",
-      "dest": "/admin/404.html"
-    },
-    {
       "src": "/",
       "dest": "/admin/index.html"
     },
     {
-      "src": "/(.*)\\.html",
-      "dest": "/admin/$1.html"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/admin/404.html",
-      "status": 404
+      "dest": "/admin/$1"
     }
   ],
   "headers": [
