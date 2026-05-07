@@ -3,7 +3,7 @@
   "name": "lekki-stays-admin",
   "builds": [
     {
-      "src": "server/server.js",
+      "src": "server/server-supabase.js",
       "use": "@vercel/node"
     },
     {
@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/server/server.js"
+      "dest": "/server/server-supabase.js"
     },
     {
       "src": "/css/(.*)",
