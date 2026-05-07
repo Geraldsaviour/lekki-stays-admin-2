@@ -847,8 +847,22 @@ button,
 
 .btn-secondary:hover {
     background: var(--bg-secondary);
-    border-color: var(--text-secondary);
+    border-color: var(--primary);
+    color: var(--primary);
     transform: translateY(-1px);
+}
+
+/* Light mode hover - text becomes black */
+[data-theme="light"] .btn-secondary:hover {
+    color: var(--bg-primary);
+    border-color: var(--bg-primary);
+}
+
+/* Dark mode hover - text becomes gold */
+[data-theme="dark"] .btn-secondary:hover,
+:root:not([data-theme="light"]) .btn-secondary:hover {
+    color: var(--primary);
+    border-color: var(--primary);
 }
 
 .btn-primary {
@@ -870,9 +884,22 @@ button,
 }
 
 .btn-primary:hover {
-    background: var(--primary-hover);
+    background: var(--bg-primary);
+    border-color: var(--primary);
+    color: var(--primary);
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(201, 169, 110, 0.3);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+/* Light mode hover - text becomes black */
+[data-theme="light"] .btn-primary:hover {
+    color: var(--bg-primary);
+}
+
+/* Dark mode hover - text becomes gold */
+[data-theme="dark"] .btn-primary:hover,
+:root:not([data-theme="light"]) .btn-primary:hover {
+    color: var(--primary);
 }
 
 .btn-primary i,
