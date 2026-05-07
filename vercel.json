@@ -8,7 +8,8 @@
     },
     {
       "src": "admin/**",
-      "use": "@vercel/static"
+      "use": "@vercel/static",
+      "config": { "cleanUrls": false }
     }
   ],
   "routes": [
