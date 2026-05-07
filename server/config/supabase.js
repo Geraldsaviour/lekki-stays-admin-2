@@ -28,4 +28,7 @@ const supabasePublic = createClient(
   process.env.SUPABASE_ANON_KEY
 );
 
-module.exports = { supabase, supabasePublic };
+// Alias for admin operations (same as supabase with service role)
+const supabaseAdmin = supabase;
+
+module.exports = { supabase, supabasePublic, supabaseAdmin };
