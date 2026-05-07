@@ -1,6 +1,7 @@
 /**
  * Apartment Management Module
  * Handles CRUD operations for apartments in admin dashboard
+ * Version: 2.0.1 - Custom modals with debug logging
  */
 
 import { AMENITIES_PRESET, LOCATIONS } from './amenities-preset.js';
@@ -825,5 +826,11 @@ class ApartmentManager {
 
 // Create global instance
 window.apartmentManager = new ApartmentManager();
+
+// Test modal on page load (remove after testing)
+window.addEventListener('DOMContentLoaded', () => {
+  console.log('ApartmentManager loaded, window.apartmentManager:', window.apartmentManager);
+  console.log('showPrompt method exists:', typeof window.apartmentManager.showPrompt);
+});
 
 export default ApartmentManager;
