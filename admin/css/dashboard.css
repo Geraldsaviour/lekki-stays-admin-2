@@ -269,7 +269,7 @@ button,
 }
 
 .dashboard-header {
-    padding: 1rem 2.5rem;
+    padding: 1rem 2.5rem 0 2.5rem;
     background: var(--bg-card);
     border-bottom: none;
     display: flex;
@@ -343,7 +343,7 @@ button,
     flex-wrap: wrap;
     background: var(--bg-card);
     padding: 1rem 2.5rem;
-    border-top: 1px solid var(--border);
+    border-top: none;
     border-bottom: 1px solid var(--border);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
@@ -351,7 +351,7 @@ button,
 [data-theme="light"] .section-toolbar {
     background: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    border-top: 1px solid #e5e7eb;
+    border-top: none;
     border-bottom: 1px solid #e5e7eb;
 }
 .stats-grid {
