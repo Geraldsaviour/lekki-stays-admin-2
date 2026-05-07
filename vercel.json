@@ -1,15 +1,9 @@
 {
   "version": 2,
-  "name": "lekki-stays-admin",
   "builds": [
     {
       "src": "server/server-supabase.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "admin/**",
-      "use": "@vercel/static",
-      "config": { "cleanUrls": false }
     }
   ],
   "routes": [
@@ -50,55 +44,14 @@
       "dest": "/admin/$1"
     }
   ],
-  "crons": [
-    {
-      "path": "/api/cron/cancel-expired-bookings",
-      "schedule": "0 * * * *"
-    }
-  ],
+  "crons": [],
   "headers": [
-    {
-      "source": "/dashboard.html",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
-        { "key": "Pragma", "value": "no-cache" }
-      ]
-    },
-    {
-      "source": "/js/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
-    {
-      "source": "/css/(.*)",
-      "headers": [
-        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
-      ]
-    },
     {
       "source": "/(.*)",
       "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "geolocation=(), microphone=(), camera=()"
-        }
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
       ]
     }
   ],
