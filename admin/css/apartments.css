@@ -216,10 +216,11 @@
 }
 
 .btn-icon:hover {
-    background: var(--hover-bg);
-    border-color: var(--primary-color);
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #0a0a0a;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
 }
 
 .btn-icon:active {
@@ -231,10 +232,10 @@
 }
 
 .btn-icon.btn-danger:hover {
-    background: #FEE2E2;
+    background: #EF4444;
     border-color: #EF4444;
-    color: #EF4444;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
 
 .btn-icon i {
@@ -242,11 +243,16 @@
     height: 18px;
     position: relative;
     z-index: 1;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .btn-icon:hover i {
     transform: scale(1.1);
+    color: #0a0a0a;
+}
+
+.btn-icon.btn-danger:hover i {
+    color: white;
 }
 
 /* Empty State */
