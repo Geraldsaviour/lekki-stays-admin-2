@@ -475,6 +475,171 @@ button,
     color: var(--primary-dark);
 }
 
+/* ============================================
+   REVENUE STATS
+   ============================================ */
+
+/* Revenue Bar */
+.revenue-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2.5rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.revenue-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.revenue-bar-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.period-tabs {
+    display: flex;
+    gap: 0.25rem;
+    background: var(--bg-secondary);
+    padding: 0.2rem;
+    border-radius: 8px;
+}
+
+.period-btn {
+    padding: 0.375rem 0.875rem;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.period-btn:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.period-btn.active {
+    background: var(--primary);
+    color: #0a0a0a;
+    font-weight: 600;
+}
+
+.revenue-refresh-hint {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    opacity: 0.7;
+}
+
+/* Revenue Grid */
+.revenue-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 1.5rem 2.5rem;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+}
+
+.revenue-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.2s;
+}
+
+.revenue-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.revenue-card-wide {
+    grid-column: span 4;
+}
+
+.revenue-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.revenue-card-icon i { width: 22px; height: 22px; }
+
+.revenue-icon-gold { background: rgba(212,175,55,0.1); color: var(--primary); }
+.revenue-icon-blue { background: rgba(59,130,246,0.1); color: #3B82F6; }
+.revenue-icon-amber { background: rgba(245,158,11,0.1); color: #F59E0B; }
+.revenue-icon-green { background: rgba(16,185,129,0.1); color: #10B981; }
+.revenue-icon-purple { background: rgba(139,92,246,0.1); color: #8B5CF6; }
+
+.revenue-card-content { flex: 1; min-width: 0; }
+
+.revenue-card-label {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.revenue-card-value {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+}
+
+/* Occupancy Bar */
+.occupancy-bar {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 0.5rem;
+    overflow: hidden;
+}
+
+.occupancy-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981, #059669);
+    border-radius: 2px;
+    transition: width 0.8s ease;
+}
+
+/* Responsive Revenue */
+@media (max-width: 1200px) {
+    .revenue-grid { grid-template-columns: repeat(2, 1fr); }
+    .revenue-card-wide { grid-column: span 2; }
+}
+
+@media (max-width: 768px) {
+    .revenue-bar { padding: 0.875rem 1rem; }
+    .revenue-grid { grid-template-columns: 1fr; padding: 1rem; }
+    .revenue-card-wide { grid-column: span 1; }
+    .period-tabs { flex-wrap: wrap; }
+}
+
 /* Stats Grid */
     display: flex;
     gap: 1rem;

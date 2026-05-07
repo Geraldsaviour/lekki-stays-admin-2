@@ -157,6 +157,89 @@ export async function getBookingStats() {
     return stats;
 }
 
+export async function getRevenueStats(period = 'this_month') {
+    // Calculate date range
+    const now = new Date();
+    let startDate, endDate = now.toISOString();
+
+    if (period === 'this_month') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+    } else if (period === 'last_month') {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 1, 1).toISOString();
+        endDate = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59).toISOString();
+    } else if (period === 'last_3_months') {
+        startDate = new Date(now.getFullYear(), now.getMonth() - 2, 1).toISOString();
+    } else {
+        // All time
+        startDate = '2020-01-01T00:00:00.000Z';
+    }
+
+    // Get bookings in period
+    const { data: periodBookings, error: periodError } = await supabase
+        .from('bookings')
+        .select('status, total_price, check_in, check_out, created_at')
+        .gte('created_at', startDate)
+        .lte('created_at', endDate);
+
+    if (periodError) throw periodError;
+
+    // Get all-time paid bookings for total revenue
+    const { data: allPaid, error: allPaidError } = await supabase
+        .from('bookings')
+        .select('total_price')
+        .eq('status', 'paid');
+
+    if (allPaidError) throw allPaidError;
+
+    // Get all apartments for occupancy calculation
+    const { data: apartments, error: aptError } = await supabase
+        .from('apartments')
+        .select('id')
+        .eq('active', true);
+
+    if (aptError) throw aptError;
+
+    const totalApartments = apartments?.length || 1;
+
+    // Calculate period stats
+    const periodPaid = periodBookings.filter(b => b.status === 'paid');
+    const periodRevenue = periodPaid.reduce((sum, b) => sum + (b.total_price || 0), 0);
+    const periodBookingsCount = periodBookings.length;
+    const periodPending = periodBookings.filter(b => b.status === 'pending').length;
+
+    // Calculate occupancy rate for current month
+    const daysInPeriod = period === 'this_month'
+        ? new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()
+        : period === 'last_month'
+        ? new Date(now.getFullYear(), now.getMonth(), 0).getDate()
+        : 90;
+
+    const totalAvailableNights = totalApartments * daysInPeriod;
+    const bookedNights = periodBookings
+        .filter(b => ['confirmed', 'paid', 'payment_pending'].includes(b.status))
+        .reduce((sum, b) => {
+            const nights = Math.ceil((new Date(b.check_out) - new Date(b.check_in)) / 86400000);
+            return sum + (nights > 0 ? nights : 0);
+        }, 0);
+
+    const occupancyRate = totalAvailableNights > 0
+        ? Math.min(100, Math.round((bookedNights / totalAvailableNights) * 100))
+        : 0;
+
+    const allTimeRevenue = (allPaid || []).reduce((sum, b) => sum + (b.total_price || 0), 0);
+
+    return {
+        periodRevenue,
+        periodBookingsCount,
+        periodPending,
+        occupancyRate,
+        bookedNights,
+        totalAvailableNights,
+        allTimeRevenue,
+        period
+    };
+}
+
 // ===== WHATSAPP =====
 
 export function generatePaymentMessage(booking) {

@@ -12,6 +12,7 @@ import {
     cancelBooking,
     getAllApartments,
     getBookingStats,
+    getRevenueStats,
     sendPaymentDetails,
     formatDate,
     formatDateShort,
@@ -26,6 +27,8 @@ import './apartments-manager.js';
 let currentBookings = [];
 let currentApartments = [];
 let currentStats = {};
+let currentRevenuePeriod = 'this_month';
+let revenueRefreshInterval = null;
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', async () => {
@@ -35,6 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeMobileMenu();
     initializeReceiptModal();
     initializeThemeToggle();
+    initializeRevenuePeriodTabs();
     await loadDashboardData();
     
     // Initialize apartment manager (use global instance)
@@ -44,6 +48,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Handle hash navigation on page load
     handleHashNavigation();
+
+    // Auto-refresh revenue stats every 60 seconds
+    revenueRefreshInterval = setInterval(async () => {
+        try {
+            const revenue = await getRevenueStats(currentRevenuePeriod);
+            updateRevenueStats(revenue);
+        } catch (e) { /* silent */ }
+    }, 60000);
 });
 
 // Handle hash navigation
@@ -271,10 +283,11 @@ async function loadDashboardData() {
         showLoadingState('apartmentsList');
 
         // Load data in parallel
-        const [bookings, apartments, stats] = await Promise.all([
+        const [bookings, apartments, stats, revenue] = await Promise.all([
             getAllBookings(),
             getAllApartments(),
-            getBookingStats()
+            getBookingStats(),
+            getRevenueStats(currentRevenuePeriod)
         ]);
 
         currentBookings = bookings;
@@ -283,9 +296,11 @@ async function loadDashboardData() {
 
         // Update UI
         updateStats(stats);
+        updateRevenueStats(revenue);
         displayRecentBookings(bookings.slice(0, 5));
         displayAllBookings(bookings);
         displayApartments(apartments);
+        await loadServiceRequests();
 
         initializeLucideIcons();
 
@@ -293,6 +308,42 @@ async function loadDashboardData() {
         console.error('Error loading dashboard data:', error);
         showError('Failed to load dashboard data. Please refresh the page.');
     }
+}
+
+// Initialize revenue period tabs
+function initializeRevenuePeriodTabs() {
+    document.querySelectorAll('.period-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentRevenuePeriod = btn.dataset.period;
+            try {
+                const revenue = await getRevenueStats(currentRevenuePeriod);
+                updateRevenueStats(revenue);
+            } catch (e) {
+                console.error('Revenue stats error:', e);
+            }
+        });
+    });
+}
+
+// Update revenue statistics
+function updateRevenueStats(revenue) {
+    const fmt = (n) => '₦' + Math.round(n).toLocaleString('en-NG');
+
+    const periodRevenueEl = document.getElementById('periodRevenue');
+    const periodBookingsEl = document.getElementById('periodBookings');
+    const periodPendingEl = document.getElementById('periodPending');
+    const occupancyRateEl = document.getElementById('occupancyRate');
+    const occupancyFillEl = document.getElementById('occupancyFill');
+    const allTimeRevenueEl = document.getElementById('allTimeRevenue');
+
+    if (periodRevenueEl) periodRevenueEl.textContent = fmt(revenue.periodRevenue);
+    if (periodBookingsEl) periodBookingsEl.textContent = revenue.periodBookingsCount;
+    if (periodPendingEl) periodPendingEl.textContent = revenue.periodPending;
+    if (occupancyRateEl) occupancyRateEl.textContent = revenue.occupancyRate + '%';
+    if (occupancyFillEl) occupancyFillEl.style.width = revenue.occupancyRate + '%';
+    if (allTimeRevenueEl) allTimeRevenueEl.textContent = fmt(revenue.allTimeRevenue);
 }
 
 // Update statistics
@@ -1048,5 +1099,145 @@ function initializeThemeToggle() {
             // Reinitialize icons after theme change
             initializeLucideIcons();
         });
+    }
+}
+
+
+// ============================================================
+// SERVICE REQUESTS
+// ============================================================
+
+let currentServiceRequests = [];
+
+async function loadServiceRequests() {
+    try {
+        const response = await fetch(`${window.API_URL}/api/admin/services`);
+        const data = await response.json();
+        if (data.success) {
+            currentServiceRequests = data.serviceRequests || [];
+            displayServiceRequests(currentServiceRequests);
+        }
+    } catch (error) {
+        console.error('Error loading service requests:', error);
+    }
+}
+
+function displayServiceRequests(requests) {
+    const container = document.getElementById('serviceRequestsList');
+    if (!container) return;
+
+    if (!requests || requests.length === 0) {
+        container.innerHTML = `
+            <div class="loading-state">
+                <i data-lucide="concierge-bell" style="width:40px;height:40px;color:var(--text-secondary);margin-bottom:1rem;"></i>
+                <p>No service requests yet</p>
+            </div>`;
+        initializeLucideIcons();
+        return;
+    }
+
+    container.innerHTML = requests.map(req => {
+        const statusColors = {
+            pending: 'status-pending',
+            confirmed: 'status-confirmed',
+            completed: 'status-paid',
+            cancelled: 'status-cancelled'
+        };
+        const date = req.preferred_datetime
+            ? new Date(req.preferred_datetime).toLocaleString('en-NG', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            : '—';
+        const created = new Date(req.created_at).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+
+        return `
+            <div class="booking-card" data-service-id="${req.id}">
+                <div class="booking-header">
+                    <div class="booking-guest-info">
+                        <h3>${req.guest_name}</h3>
+                        <p class="booking-contact">${req.phone}${req.apartment_name ? ' • ' + req.apartment_name : ''}${req.booking_reference ? ' • ' + req.booking_reference : ''}</p>
+                    </div>
+                    <span class="booking-status ${statusColors[req.status] || 'status-pending'}">${req.status.charAt(0).toUpperCase() + req.status.slice(1)}</span>
+                </div>
+                <div class="booking-details">
+                    <div class="booking-detail">
+                        <span class="booking-detail-label">Service</span>
+                        <span class="booking-detail-value">${req.service_type}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="booking-detail-label">Preferred Time</span>
+                        <span class="booking-detail-value">${date}</span>
+                    </div>
+                    <div class="booking-detail">
+                        <span class="booking-detail-label">Submitted</span>
+                        <span class="booking-detail-value">${created}</span>
+                    </div>
+                    ${req.special_instructions ? `
+                    <div class="booking-detail">
+                        <span class="booking-detail-label">Notes</span>
+                        <span class="booking-detail-value">${req.special_instructions}</span>
+                    </div>` : ''}
+                </div>
+                <div class="booking-actions">
+                    ${req.status === 'pending' ? `
+                        <button class="btn-action btn-confirm" onclick="updateServiceStatus('${req.id}', 'confirmed')">
+                            <i data-lucide="check-circle"></i> Confirm
+                        </button>` : ''}
+                    ${req.status === 'confirmed' ? `
+                        <button class="btn-action btn-paid" onclick="updateServiceStatus('${req.id}', 'completed')">
+                            <i data-lucide="star"></i> Mark Complete
+                        </button>` : ''}
+                    ${['pending', 'confirmed'].includes(req.status) ? `
+                        <button class="btn-action btn-decline" onclick="updateServiceStatus('${req.id}', 'cancelled')">
+                            <i data-lucide="x-circle"></i> Cancel
+                        </button>` : ''}
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    initializeLucideIcons();
+
+    // Service filter
+    const filterEl = document.getElementById('serviceStatusFilter');
+    if (filterEl && !filterEl._bound) {
+        filterEl._bound = true;
+        filterEl.addEventListener('change', () => {
+            const val = filterEl.value;
+            const filtered = val === 'all' ? currentServiceRequests : currentServiceRequests.filter(r => r.status === val);
+            displayServiceRequests(filtered);
+        });
+    }
+
+    // Service search
+    const searchEl = document.getElementById('serviceSearchInput');
+    if (searchEl && !searchEl._bound) {
+        searchEl._bound = true;
+        searchEl.addEventListener('input', () => {
+            const q = searchEl.value.toLowerCase();
+            const filtered = currentServiceRequests.filter(r =>
+                r.guest_name.toLowerCase().includes(q) ||
+                r.service_type.toLowerCase().includes(q) ||
+                (r.phone || '').includes(q)
+            );
+            displayServiceRequests(filtered);
+        });
+    }
+}
+
+async function updateServiceStatus(id, status) {
+    try {
+        const response = await fetch(`${window.API_URL}/api/admin/services/${id}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status })
+        });
+        const data = await response.json();
+        if (data.success) {
+            await showAlert(`Service request marked as ${status}`, 'success');
+            await loadServiceRequests();
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (error) {
+        await showAlert('Failed to update service request', 'error');
     }
 }

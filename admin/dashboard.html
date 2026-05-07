@@ -58,6 +58,10 @@
                 <i data-lucide="home"></i>
                 <span>Apartments</span>
             </a>
+            <a href="#services" class="nav-item" data-section="services">
+                <i data-lucide="concierge-bell"></i>
+                <span>Services</span>
+            </a>
             <a href="settings.html" class="nav-item">
                 <i data-lucide="settings"></i>
                 <span>Settings</span>
@@ -95,6 +99,74 @@
 
         <!-- Overview Section -->
         <section id="overview-section" class="content-section active">
+            <!-- Revenue Stats Bar -->
+            <div class="revenue-bar">
+                <div class="revenue-bar-left">
+                    <span class="revenue-bar-label">Period:</span>
+                    <div class="period-tabs">
+                        <button class="period-btn active" data-period="this_month">This Month</button>
+                        <button class="period-btn" data-period="last_month">Last Month</button>
+                        <button class="period-btn" data-period="last_3_months">3 Months</button>
+                        <button class="period-btn" data-period="all_time">All Time</button>
+                    </div>
+                </div>
+                <div class="revenue-bar-right">
+                    <span class="revenue-refresh-hint" id="revenueRefreshHint">Auto-refreshes every 60s</span>
+                </div>
+            </div>
+
+            <!-- Revenue Stats Grid -->
+            <div class="revenue-grid">
+                <div class="revenue-card">
+                    <div class="revenue-card-icon revenue-icon-gold">
+                        <i data-lucide="trending-up"></i>
+                    </div>
+                    <div class="revenue-card-content">
+                        <p class="revenue-card-label">Revenue This Period</p>
+                        <h3 class="revenue-card-value" id="periodRevenue">₦0</h3>
+                    </div>
+                </div>
+                <div class="revenue-card">
+                    <div class="revenue-card-icon revenue-icon-blue">
+                        <i data-lucide="calendar-check"></i>
+                    </div>
+                    <div class="revenue-card-content">
+                        <p class="revenue-card-label">Bookings This Period</p>
+                        <h3 class="revenue-card-value" id="periodBookings">0</h3>
+                    </div>
+                </div>
+                <div class="revenue-card">
+                    <div class="revenue-card-icon revenue-icon-amber">
+                        <i data-lucide="clock"></i>
+                    </div>
+                    <div class="revenue-card-content">
+                        <p class="revenue-card-label">Pending Confirmations</p>
+                        <h3 class="revenue-card-value" id="periodPending">0</h3>
+                    </div>
+                </div>
+                <div class="revenue-card">
+                    <div class="revenue-card-icon revenue-icon-green">
+                        <i data-lucide="percent"></i>
+                    </div>
+                    <div class="revenue-card-content">
+                        <p class="revenue-card-label">Occupancy Rate</p>
+                        <h3 class="revenue-card-value" id="occupancyRate">0%</h3>
+                        <div class="occupancy-bar">
+                            <div class="occupancy-fill" id="occupancyFill" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="revenue-card revenue-card-wide">
+                    <div class="revenue-card-icon revenue-icon-purple">
+                        <i data-lucide="banknote"></i>
+                    </div>
+                    <div class="revenue-card-content">
+                        <p class="revenue-card-label">All-Time Total Revenue</p>
+                        <h3 class="revenue-card-value" id="allTimeRevenue">₦0</h3>
+                    </div>
+                </div>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card stat-total">
                     <div class="stat-icon">
@@ -206,6 +278,28 @@
                     <div class="loading-state">
                         <div class="spinner"></div>
                         <p>Loading apartments...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Services Section -->
+        <section id="services-section" class="content-section">
+            <div class="section-toolbar">
+                <div class="filters">
+                    <select id="serviceStatusFilter" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Confirmed</option>
+                        <option value="completed">Completed</option>
+                    </select>
+                    <input type="search" id="serviceSearchInput" class="search-input" placeholder="Search by guest name or service...">
+                </div>
+            </div>
+            <div class="section-scroll-body">
+                <div id="serviceRequestsList" class="bookings-list">
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Loading service requests...</p>
                     </div>
                 </div>
             </div>

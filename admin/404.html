@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | LuxStay Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #F5F0E8; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 1.75rem; font-weight: 900; color: #D4AF37; margin-bottom: 3rem; text-decoration: none; display: block; }
+        .logo span { font-size: 0.875rem; font-family: 'Inter', sans-serif; font-weight: 400; color: #6B7280; display: block; margin-top: 0.25rem; letter-spacing: 2px; text-transform: uppercase; }
+        .error-code { font-family: 'Playfair Display', serif; font-size: clamp(6rem, 20vw, 10rem); font-weight: 900; line-height: 1; margin-bottom: 1rem; color: #1a1a1a; }
+        .error-title { font-family: 'Playfair Display', serif; font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 700; color: #F5F0E8; margin-bottom: 0.75rem; }
+        .error-subtitle { font-size: 0.9375rem; color: #9CA3AF; max-width: 380px; line-height: 1.7; margin-bottom: 2.5rem; }
+        .btn-primary { padding: 0.875rem 2rem; background: #D4AF37; color: #0a0a0a; border: none; border-radius: 8px; font-size: 0.9375rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: all 0.3s; display: inline-block; }
+        .btn-primary:hover { background: #B8941F; transform: translateY(-1px); }
+        .divider { width: 40px; height: 2px; background: #D4AF37; margin: 1.5rem auto; }
+    </style>
+</head>
+<body>
+    <a href="dashboard.html" class="logo">LuxStay <span>Admin Dashboard</span></a>
+    <div class="error-code">404</div>
+    <div class="divider"></div>
+    <h1 class="error-title">Page Not Found</h1>
+    <p class="error-subtitle">This page doesn't exist. You may have followed a broken link or mistyped the URL.</p>
+    <a href="dashboard.html" class="btn-primary">Back to Dashboard</a>
+</body>
+</html>

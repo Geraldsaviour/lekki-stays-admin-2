@@ -84,6 +84,7 @@ app.use('/api/availability', require('./routes-supabase/availability'));
 
 // Admin routes
 app.use('/api/admin/apartments', require('./routes-supabase/admin-apartments'));
+app.use('/api/admin/services', require('./routes-supabase/service-requests'));
 
 // Cron job routes
 app.use('/api/cron', require('./routes-supabase/cron-jobs'));

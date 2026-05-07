@@ -46,7 +46,14 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/admin/$1"
+      "dest": "/admin/$1",
+      "status": 200
+    }
+  ],
+  "errorHandling": [
+    {
+      "statusCode": 404,
+      "dest": "/admin/404.html"
     }
   ],
   "headers": [
