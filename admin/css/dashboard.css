@@ -2,17 +2,12 @@
    GLOBAL BUTTON STYLES
    ============================================ */
 
-/* Base button reset and common styles */
-button {
+/* Base button reset - but preserve functionality */
+button:not(.btn-primary):not(.btn-secondary):not(.btn-icon):not(.modal-close):not(.sidebar-close):not(.toast-close) {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
     cursor: pointer;
-    border: none;
-    outline: none;
-    background: none;
-    padding: 0;
-    margin: 0;
 }
 
 /* Ensure all buttons have proper text rendering */
