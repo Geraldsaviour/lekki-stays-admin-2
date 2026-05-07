@@ -14,14 +14,37 @@
     top: 0;
     z-index: 100;
     background: var(--bg-primary);
-    padding: 1rem 0;
+    padding: 1.5rem 0;
     margin-top: 0;
     margin-left: -2.5rem;
     margin-right: -2.5rem;
     padding-left: 2.5rem;
     padding-right: 2.5rem;
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure toolbar has solid background in both themes */
+[data-theme="light"] .section-toolbar {
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+/* Add backdrop to prevent content showing through */
+.section-toolbar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-primary);
+    z-index: -1;
+}
+
+[data-theme="light"] .section-toolbar::before {
+    background: #ffffff;
 }
 
 .toolbar-left,
@@ -520,8 +543,15 @@
         margin-right: -1rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        background: var(--bg-primary);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    [data-theme="light"] .section-toolbar {
+        background: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .apartments-grid {
