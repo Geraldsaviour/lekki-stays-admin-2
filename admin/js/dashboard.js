@@ -20,13 +20,12 @@ import {
     getStatusLabel
 } from './api.js';
 
-import ApartmentManager from './apartments-manager.js';
+import './apartments-manager.js';
 
 // Global state
 let currentBookings = [];
 let currentApartments = [];
 let currentStats = {};
-let apartmentManager = null;
 
 // Initialize dashboard
 document.addEventListener('DOMContentLoaded', async () => {
@@ -38,9 +37,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     initializeThemeToggle();
     await loadDashboardData();
     
-    // Initialize apartment manager
-    apartmentManager = new ApartmentManager();
-    await apartmentManager.init();
+    // Initialize apartment manager (use global instance)
+    await window.apartmentManager.init();
     
     initializeLucideIcons();
     
