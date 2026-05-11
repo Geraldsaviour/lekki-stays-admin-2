@@ -952,6 +952,10 @@ button,
     box-shadow: var(--shadow-lg);
 }
 
+.modal-content.modal-large {
+    max-width: 900px;
+}
+
 .modal-header {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid var(--border);
@@ -977,6 +981,7 @@ button,
     align-items: center;
     justify-content: center;
     transition: all 0.2s;
+    flex-shrink: 0;
 }
 
 .modal-close:hover {

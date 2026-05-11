@@ -247,14 +247,24 @@ class ApartmentManager {
     const formData = new FormData(event.target);
     const amenities = formData.getAll('amenities');
 
+    // Validate required fields
+    const name = formData.get('name');
+    const location = formData.get('location');
+    const price = formData.get('price_per_night');
+
+    if (!name || !location || !price) {
+      this.showNotification('Please fill in all required fields', 'error');
+      return;
+    }
+
     const apartmentData = {
-      name: formData.get('name'),
-      location: formData.get('location'),
-      price_per_night: parseInt(formData.get('price_per_night')),
-      max_guests: parseInt(formData.get('max_guests')),
-      bedrooms: parseInt(formData.get('bedrooms')),
-      bathrooms: parseInt(formData.get('bathrooms')),
-      description: formData.get('description'),
+      name: name,
+      location: location,
+      price_per_night: parseInt(price),
+      max_guests: parseInt(formData.get('max_guests')) || 1,
+      bedrooms: parseInt(formData.get('bedrooms')) || 0,
+      bathrooms: parseInt(formData.get('bathrooms')) || 1,
+      description: formData.get('description') || '',
       latitude: parseFloat(formData.get('latitude')) || null,
       longitude: parseFloat(formData.get('longitude')) || null,
       featured: formData.get('featured') === 'on',
@@ -289,11 +299,11 @@ class ApartmentManager {
         await this.loadApartments();
         this.renderApartmentsList();
       } else {
-        throw new Error(data.error);
+        throw new Error(data.error || 'Failed to save apartment');
       }
     } catch (error) {
       console.error('Error saving apartment:', error);
-      this.showNotification('Failed to save apartment', 'error');
+      this.showNotification(error.message || 'Failed to save apartment', 'error');
     }
   }
 

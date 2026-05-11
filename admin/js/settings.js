@@ -149,10 +149,14 @@ async function handleSendPasswordReset() {
     try {
         const user = await getCurrentUser();
         
+        if (!user) {
+            throw new Error('User not authenticated');
+        }
+        
         // Use the actual production URL for redirect
         const redirectUrl = window.location.hostname === 'localhost' 
-            ? 'http://localhost:3000/dashboard.html'
-            : 'https://lekki-stays-admin-2.vercel.app/dashboard.html';
+            ? 'http://localhost:3000/admin/dashboard.html'
+            : 'https://lekki-stays-admin-2.vercel.app/admin/dashboard.html';
         
         // Send password reset email
         const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
@@ -177,8 +181,13 @@ async function handleSendPasswordReset() {
 async function handleChangeEmail(e) {
     e.preventDefault();
     
-    const newEmail = document.getElementById('newEmail').value;
+    const newEmail = document.getElementById('newEmail').value.trim();
     const submitBtn = document.getElementById('updateEmailBtn');
+    
+    if (!newEmail) {
+        showErrorModal('Please enter a new email address.');
+        return;
+    }
     
     // Show loading state
     submitBtn.disabled = true;
@@ -193,7 +202,7 @@ async function handleChangeEmail(e) {
         if (error) throw error;
         
         // Success
-        showSuccessModal('Verification email sent! Please check your new email address and click the confirmation link.');
+        showSuccessModal('Verification email sent! Please check your new email address and click the confirmation link to complete the change.');
         
         // Clear form
         document.getElementById('changeEmailForm').reset();
@@ -203,10 +212,12 @@ async function handleChangeEmail(e) {
         
         let errorMessage = 'Failed to update email. Please try again.';
         
-        if (error.message.includes('already registered')) {
+        if (error.message && error.message.includes('already registered')) {
             errorMessage = 'This email address is already in use.';
-        } else if (error.message.includes('invalid')) {
+        } else if (error.message && error.message.includes('invalid')) {
             errorMessage = 'Please enter a valid email address.';
+        } else if (error.message) {
+            errorMessage = error.message;
         }
         
         showErrorModal(errorMessage);
